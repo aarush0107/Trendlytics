@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendlytics - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #123524;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #123524;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: #FFFFFF;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        button {
+            background-color: #123524;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #1a472f;
+        }
+        .compare-form {
+            background-color: #123524;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .compare-form label {
+            color: #FFFFFF;
+        }
+        .compare-form input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        a {
+            color: #123524;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Trendlytics</h1>
+        <form action="/report" method="POST">
+            <label for="product">Select a Product:</label>
+            <select name="product" id="product">
+                {% for product in products %}
+                    <option value="{{ product }}">{{ product }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <label for="timeline">Select Timeline:</label>
+            <select name="timeline" id="timeline">
+                <option value="1">Last 1 Month</option>
+                <option value="2">Last 2 Months</option>
+                <option value="3">Last 3 Months</option>
+                <option value="6">Last 6 Months</option>
+                <option value="12">Last 12 Months</option>
+                <option value="all">All Time</option>
+            </select>
+            <br>
+            <button type="submit">Generate Report</button>
+        </form>
+        <div class="compare-form">
+            <h2>Compare Products</h2>
+            <form action="/compare" method="POST">
+                <label for="products">Select Products:</label><br>
+                {% for product in products %}
+                    <input type="checkbox" name="products" value="{{ product }}"> {{ product }}<br>
+                {% endfor %}
+                <br>
+                <label for="timeline">Select Timeline:</label>
+                <select name="timeline" id="timeline">
+                    <option value="1">Last 1 Month</option>
+                    <option value="2">Last 2 Months</option>
+                    <option value="3">Last 3 Months</option>
+                    <option value="6">Last 6 Months</option>
+                    <option value="12">Last 12 Months</option>
+                    <option value="all">All Time</option>
+                </select>
+                <br><br>
+                <button type="submit">Compare</button>
+            </form>
+        </div>
+        <a href="/feedback">Leave Feedback</a>
+    </div>
+</body>
+</html>

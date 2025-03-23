@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #123524;
+            text-align: center;
+        }
+        .report {
+            margin: 20px 0;
+        }
+        .report p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Report</h1>
+    <div class="report">
+        <p><strong>Product:</strong> {{ product }}</p>
+        <p><strong>Average Rating:</strong> {{ avg_rating }}</p>
+        <p><strong>Top Keywords:</strong> {{ top_keywords }}</p>
+        <p><strong>Report:</strong> {{ report_text }}</p>
+    </div>
+</body>
+</html>

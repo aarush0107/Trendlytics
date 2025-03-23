@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Report - Trendlytics</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #FFFFFF;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #123524;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .report {
+            background-color: #123524;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .report p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        .report img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .sentiment-chart {
+            margin-top: 20px;
+        }
+        a {
+            color: #123524;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product Report</h1>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% else %}
+            <div class="report">
+                <p><strong>Product:</strong> {{ product }}</p>
+                <p><strong>Average Rating:</strong> {{ avg_rating }}</p>
+                <p><strong>Top Keywords:</strong> {{ top_keywords }}</p>
+                <p><strong>Report:</strong> {{ report_text }}</p>
+                {% if wordcloud_path %}
+                    <img src="{{ url_for('static', filename=wordcloud_path.split('/')[-1]) }}" alt="WordCloud">
+                {% endif %}
+                <div class="sentiment-chart">
+                    <h2>Sentiment Distribution</h2>
+                    <div id="sentiment-pie-chart"></div>
+                </div>
+            </div>
+            <form action="/export-pdf" method="POST">
+                <input type="hidden" name="product" value="{{ product }}">
+                <input type="hidden" name="timeline" value="{{ timeline }}">
+                <button type="submit">Export as PDF</button>
+            </form>
+        {% endif %}
+        <a href="/">Back to Home</a>
+    </div>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // Parse the JSON data passed from Flask
+        const sentimentData = JSON.parse('{{ sentiment_distribution | safe }}');
+
+        const data = [{
+            values: [sentimentData.Positive, sentimentData.Neutral, sentimentData.Negative],
+            labels: ['Positive', 'Neutral', 'Negative'],
+            type: 'pie',
+            marker: {
+                colors: ['#4CAF50', '#FFC107', '#F44336']
+            }
+        }];
+
+        const layout = {
+            title: 'Sentiment Distribution',
+            height: 400,
+            width: 600
+        };
+
+        Plotly.newPlot('sentiment-pie-chart', data, layout);
+    </script>
+</body>
+</html>
