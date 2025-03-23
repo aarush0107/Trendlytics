@@ -1,0 +1,1 @@
+create a project folder. inside that paste the app.py file. create another folder called template and paste the html codes there. make sure to keep the excel file in the project folder also. (make sure that the file oaths are correct in every code)
